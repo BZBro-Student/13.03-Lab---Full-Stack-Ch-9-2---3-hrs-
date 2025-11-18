@@ -35,6 +35,42 @@ router.post('/create', function (req, res, next) {
     }
 });
 
+router.post('/edit', function (req, res, next) {
+    const { task, id } = req.body;
+    try {
+      req.db.query('UPDATE todos set task = ? WHERE id = ?;', [task, id], (err, results) => {
+        if (err) {
+          console.error('Error updating todo:', err);
+          return res.status(500).send('Error updating todo');
+        }
+        console.log('Todo updated successfully:', results);
+        // Redirect to the home page after adding
+        res.redirect('/');
+      });
+    } catch (error) {
+      console.error('Error updating todo:', error);
+      res.status(500).send('Error updating todo');
+    }
+});
+
+router.post('/complete', function (req, res, next) {
+    const { id } = req.body;
+    try {
+      req.db.query('UPDATE todos set completed = true WHERE id = ?;', [id], (err, results) => {
+        if (err) {
+          console.error('Error completing todo:', err);
+          return res.status(500).send('Error completing todo');
+        }
+        console.log('Todo completing successfully:', results);
+        // Redirect to the home page after adding
+        res.redirect('/');
+      });
+    } catch (error) {
+      console.error('Error completing todo:', error);
+      res.status(500).send('Error completing todo');
+    }
+});
+
 router.post('/delete', function (req, res, next) {
     const { id } = req.body;
     try {
