@@ -3,24 +3,28 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  
   ol
-  each val in todos
-    li
-      span= val.task + ' - '
-      if val.completed > 0
-        span Completed
-      else
-        pan Not Completed
-      form(method='POST' action='/complete')
-        input(type='hidden', name='id', value=val.id)
-        button(type='submit') Complete
-      form(method='POST' action='/delete')
-        input(type='hidden', name='id', value=val.id)
-        button(type='submit') Delete
-      form(method='POST' action='/edit')
-        input(type='hidden', name='id', value=val.id)
-        input(type='text', name='task', id='task', required)
-        button(type='submit') Update
+    each val in todos
+      li
+        span= val.task + ' - '
+        if val.completed > 0
+          span Completed
+        else
+          span Not Completed
+        div
+          form(method='POST' action='/edit')
+            input(type='hidden', name='id', value=val.id)
+            input(type='text', name='task', id='task', required)
+            button(type='submit') Update
+        div
+          form(method='POST' action='/complete')
+            input(type='hidden', name='id', value=val.id)
+            button(type='submit') Complete
+          form(method='POST' action='/delete')
+            input(type='hidden', name='id', value=val.id)
+            button(type='submit') Delete
+
 
   hr
   h2 Add a new task
